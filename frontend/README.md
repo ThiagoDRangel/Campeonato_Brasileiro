@@ -14,3 +14,8 @@ yarn
 ```bash
 yarn add react-router-dom@6.4.1 @types/react-router-dom@5.3.3
 ```  
+
+### Instalando Axios
+```bash
+yarn add axios@0.27.2
+```
