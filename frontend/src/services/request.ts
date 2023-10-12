@@ -8,8 +8,8 @@ export const setToken = (token: any) => {
   api.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-export const requestData = async (endpoint: any) => {
-  const { data } = await api.get(endpoint);
+export const requestData = async (endpoint: string, params: Record<string, any>) => {
+  const { data } = await api.get(endpoint, { params });
   return data;
 };
 

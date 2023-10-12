@@ -5,6 +5,7 @@ import LeaderboardBtn from '../../components/LeaderBoardBtn';
 import MatchesBtn from '../../components/MatchesBtn';
 import { requestLogin, setToken, requestData } from '../../services/request';
 import { positiveLogo } from '../../assets/images';
+import './styles.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -44,6 +45,8 @@ const Login = () => {
         page="LOGIN"
         FirstNavigationLink={ LeaderboardBtn }
         SecondNavegationLink={ MatchesBtn }
+        logged={isLogged}
+        setLogin={setIsLogged}
       />
       <section className="user-login-area">
         <img src={ positiveLogo } alt="Trybe Futebol Clube Negative Logo" />

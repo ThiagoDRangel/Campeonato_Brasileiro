@@ -3,11 +3,12 @@ import { requestData } from '../../services/request';
 import Loading from '../Loading';
 import { v4 as uuidv4 } from 'uuid';
 import ILeaderboardTable from '../../interfaces/ILeaderboardTable';
+import './styles.css';
 
 const LeaderboardTable: React.FC<ILeaderboardTable> = ({ currentFilter }) => {
   const [leaderboard, setLeaderboard] = useState([]);
 
-  const getLeaderboard = (endpoint: string) => requestData(endpoint)
+  const getLeaderboard = async (endpoint: string) => requestData(endpoint, {})
     .then((response) => setLeaderboard(response))
     .catch((error) => console.log(error));
 
