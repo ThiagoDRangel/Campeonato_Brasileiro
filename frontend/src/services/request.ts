@@ -1,21 +1,29 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+
+interface ApiResponse<T> {
+  data: T;
+}
+
+const apiBaseURL = process.env.NODE_ENV === 'production'
+  ? 'http://seu-servidor-em-producao.com'
+  : 'http://localhost:3000';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5173',
+  baseURL: apiBaseURL,
 });
 
-export const setToken = (token: any) => {
+export const setToken = (token: string) => {
   api.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-export const requestData = async (endpoint: string, params: Record<string, any>) => {
-  const { data } = await api.get(endpoint, { params });
-  return data;
+export const requestData = async <T>(endpoint: string): Promise<T> => {
+  const response: AxiosResponse<ApiResponse<T>> = await api.get(endpoint);
+  return response.data.data;
 };
 
-export const requestLogin = async (endpoint: any, body: any) => {
-  const { data } = await api.post(endpoint, body);
-  return data;
+export const requestLogin = async <T>(endpoint: string, body: unknown): Promise<T> => {
+  const response: AxiosResponse<ApiResponse<T>> = await api.post(endpoint, body);
+  return response.data.data;
 };
 
 export default api;

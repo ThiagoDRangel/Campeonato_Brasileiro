@@ -8,7 +8,7 @@ import './styles.css';
 const LeaderboardTable: React.FC<ILeaderboardTable> = ({ currentFilter }) => {
   const [leaderboard, setLeaderboard] = useState([]);
 
-  const getLeaderboard = async (endpoint: string) => requestData(endpoint, {})
+  const getLeaderboard = async (endpoint: string) => requestData(endpoint)
     .then((response) => setLeaderboard(response))
     .catch((error) => console.log(error));
 

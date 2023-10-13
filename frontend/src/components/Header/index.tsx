@@ -22,7 +22,7 @@ const Header = ({
   return (
     <header className="common-header">
       <div className="image-content">
-        <img src={ negativeLogo } alt="Trybe Futebol Clube Negative Logo" />
+        <img src={ negativeLogo } alt="Brasileirão Negative Logo" />
       </div>
       <h1 data-testid="header__title">{ page }</h1>
       <div className="buttons-content">
