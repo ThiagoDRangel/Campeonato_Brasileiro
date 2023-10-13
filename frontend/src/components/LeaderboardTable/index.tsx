@@ -9,7 +9,7 @@ const LeaderboardTable: React.FC<ILeaderboardTable> = ({ currentFilter }) => {
   const [leaderboard, setLeaderboard] = useState([]);
 
   const getLeaderboard = async (endpoint: string) => requestData(endpoint)
-    .then((response) => setLeaderboard(response))
+    .then((response) => setLeaderboard(response as never[]))
     .catch((error) => console.log(error));
 
   useEffect(() => {
