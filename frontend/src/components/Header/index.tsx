@@ -26,7 +26,7 @@ const Header = ({
       </div>
       <h1 data-testid="header__title">{ page }</h1>
       <div className="buttons-content">
-        <FirstNavigationLink />
+        {FirstNavigationLink && <FirstNavigationLink />}
         {
           (logged)
             ? (
@@ -35,7 +35,7 @@ const Header = ({
                 <img src={ exitToAppImg } alt="Sair do aplicativo" />
               </button>
             )
-            : <SecondNavegationLink />
+            : (SecondNavegationLink && <SecondNavegationLink />)
         }
       </div>
     </header>

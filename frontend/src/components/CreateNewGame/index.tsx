@@ -4,11 +4,11 @@ import Scoreboard from '../Scoreboard';
 
 interface ICreateNewGame {
     teams: Array<{ teamName: string }>;
-    setTeams: React.Dispatch<React.SetStateAction<never[]>>;
+    setTeams?: React.Dispatch<React.SetStateAction<never[]>>;
     getTeam: (team: string, homeOrAway: string) => void;
-    homeTeamScoreboard: number;
+    homeTeamScoreboard?: number;
     setHomeTeamScoreboard: React.Dispatch<React.SetStateAction<number>>;
-    awayTeamScoreboard: number;
+    awayTeamScoreboard?: number;
     setAwayTeamScoreboard: React.Dispatch<React.SetStateAction<number>>;
     createMatch: () => Promise<unknown>;
     finishMatch: (id: number) => void;
@@ -42,7 +42,7 @@ const CreateNewGame = ({
           <Scoreboard
             testId="insertion_matches__select_quantity_goals_home_team"
             homeTeam
-            score={ homeTeamScoreboard }
+            score={ homeTeamScoreboard ?? 0 }
             setScore={ setHomeTeamScoreboard }
           />
           <div className="match-settings-form-versus">
@@ -52,7 +52,7 @@ const CreateNewGame = ({
           <Scoreboard
             testId="insertion_matches__select_quantity_goals_away_team"
             homeTeam={ false }
-            score={ awayTeamScoreboard }
+            score={ awayTeamScoreboard ?? 0 }
             setScore={ setAwayTeamScoreboard }
           />
           <TeamOption

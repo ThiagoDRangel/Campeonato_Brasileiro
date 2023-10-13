@@ -17,11 +17,12 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const { token } = await requestLogin('/login', { email, password });
+      const response = await requestLogin('/login', { email, password });
+      const { token } = response as { token: string };
 
       setToken(token);
 
-      const { role } = await requestData('/login/role', { email, password });
+      const { role } = await requestData(`/login/role?email=${email}`) as { role: string };
 
       localStorage.setItem('token',  token);
       localStorage.setItem('role',  role);

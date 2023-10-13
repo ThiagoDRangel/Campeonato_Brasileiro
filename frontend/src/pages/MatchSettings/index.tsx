@@ -12,8 +12,8 @@ const MatchSettings = () => {
     const [teams, setTeams] = useState<{
         id: { teamName: string; } | undefined; teamName: string 
     }[]>([]);
-    const [homeTeamScoreboard, setHomeTeamScoreboard] = useState('0');
-    const [awayTeamScoreboard, setAwayTeamScoreboard] = useState('0');
+    const [homeTeamScoreboard, setHomeTeamScoreboard] = useState<number>(0);
+    const [awayTeamScoreboard, setAwayTeamScoreboard] = useState<number>(0);
     const [homeTeamId, setHomeTeamId] = useState(0);
     const [awayTeamId, setAwayTeamId] = useState(0);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -90,12 +90,14 @@ const MatchSettings = () => {
     return data;
   };
 
-  const updateMatch = async (id, updateGoals) => {
-    await api.patch(`/matches/${id}`, { ...updateGoals });
+  const updateMatch = async (id: number, body: { homeTeamGoals: number, awayTeamGoals: number }) => {
+    await api.patch(`/matches/${id}`, body);
   };
-  const finishMatch = async (id) => {
+  
+  
+const finishMatch = async (id: number) => {
     await api.patch(`/matches/${id}/finish`);
-  };
+};
 
   if (!isAuthenticated) return <Loading />;
 

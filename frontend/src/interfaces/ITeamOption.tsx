@@ -5,3 +5,10 @@ export default interface ITeamOption {
     getTeam: (value: string, homeOrAway: string) => void;
     testId: string;
 }
+
+export interface ITeamOptionWithoutSetTeams {
+    teams: Array<{ teamName: string }>;
+    homeTeam: boolean;
+    getTeam: (value: string, homeOrAway: string) => void;
+    testId: string;
+}

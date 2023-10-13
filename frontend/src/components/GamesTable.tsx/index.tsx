@@ -1,21 +1,38 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { requestData } from '../../services/request';
+import { requestData, ApiResponse } from '../../services/request';
 import Loading from '../Loading';
 import { check, editIcon } from '../../assets/images';
-
 interface IGamerTable{
     currentFilter: string;
     isAdm: boolean;
 }
+
+interface IGame {
+  id: number;
+  homeTeam: {
+    teamName: string;
+  };
+  homeTeamGoals: number;
+  awayTeam: {
+    teamName: string;
+  };
+  awayTeamGoals: number;
+  inProgress: boolean;
+}
 const GamesTable = ({ currentFilter, isAdm }: IGamerTable) => {
-  const [games, setGames] = useState([]);
+  const [games, setGames] = useState<IGame[]>([]);
 
   const navigate = useNavigate();
 
-const getGames = (endpoint: string) => requestData(endpoint)
-    .then((response) => setGames(response as never[]))
-    .catch((error) => console.log(error));
+  const getGames = (endpoint: string) => requestData<ApiResponse<IGame[]>>(endpoint)
+  .then((response) => {
+    if (Array.isArray(response)) {
+      setGames(response as IGame[]);
+    }
+  })
+  .catch((error) => console.log(error));
+
 
   useEffect(() => {
     const endpoint = '/matches';
@@ -61,7 +78,7 @@ const getGames = (endpoint: string) => requestData(endpoint)
       <tbody>
         {
           games
-            .sort((a, b) => b.inProgress - a.inProgress)
+            .sort((a, b) => Number(b.inProgress) - Number(a.inProgress))
             .map(({
               id,
               homeTeam,

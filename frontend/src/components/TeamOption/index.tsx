@@ -1,6 +1,6 @@
-import ITeamOption from "../../interfaces/ITeamOption";
+import ITeamOption, { ITeamOptionWithoutSetTeams } from "../../interfaces/ITeamOption";
 
-const TeamOption = ({ teams, homeTeam, getTeam, testId }: ITeamOption) => (
+const TeamOption = ({ teams, homeTeam, getTeam, testId }: ITeamOption | ITeamOptionWithoutSetTeams) => (
   <label htmlFor={ (homeTeam) ? 'home-team-scoreboard' : 'away-team-scoreboard' }>
     { (homeTeam) ? <p>Time Mandante</p> : <p>Time Visitante</p> }
     <select

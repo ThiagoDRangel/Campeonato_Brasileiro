@@ -4,7 +4,7 @@ export default interface IEditGame {
     homeTeamGoals: number;
     awayTeamGoals: number;
     idMatch: number;
-    updateMatch: (id: number, body: object) => void;
+    updateMatch: (id: number, body: { homeTeamGoals: number, awayTeamGoals: number }) => void;
     finishMatch: (id: number) => void;
     getTeam: (team: string, homeOrAway: string) => void;
 }

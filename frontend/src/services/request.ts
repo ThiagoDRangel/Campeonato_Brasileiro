@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
   data: T;
 }
 
