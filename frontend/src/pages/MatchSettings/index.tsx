@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import CreateNewGame from '../components/CreateNewGame';
-import EditGame from '../components/EditGame';
-import Header from '../components/Header';
-import MatchesBtn from '../components/MatchesBtn';
-import Loading from '../components/Loading';
-import api, { requestData, setToken } from '../services/requests';
-import '../styles/pages/matchSettings.css';
+import CreateNewGame from '../../components/CreateNewGame';
+import EditGame from '../../components/EditGame';
+import Header from '../../components/Header';
+import MatchesBtn from '../../components/MatchesBtn';
+import Loading from '../../components/Loading';
+import api, { requestData, setToken } from '../../services/request';
+import './styles.css';
 
 const MatchSettings = () => {
-  const [teams, setTeams] = useState([]);
-  const [homeTeamScoreboard, setHomeTeamScoreboard] = useState('0');
-  const [awayTeamScoreboard, setAwayTeamScoreboard] = useState('0');
-  const [homeTeamId, setHomeTeamId] = useState(0);
-  const [awayTeamId, setAwayTeamId] = useState(0);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [teams, setTeams] = useState<{
+        id: { teamName: string; } | undefined; teamName: string 
+    }[]>([]);
+    const [homeTeamScoreboard, setHomeTeamScoreboard] = useState('0');
+    const [awayTeamScoreboard, setAwayTeamScoreboard] = useState('0');
+    const [homeTeamId, setHomeTeamId] = useState(0);
+    const [awayTeamId, setAwayTeamId] = useState(0);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,24 +37,46 @@ const MatchSettings = () => {
 
   useEffect(() => {
     const endpoint = '/teams';
-
-    const token = localStorage.getItem('token') || '';
-    if (token !== '') {
-      setToken(token);
+  
+    const fetchTeams = async () => {
+      try {
+        const token = localStorage.getItem('token') || '';
+        if (!token) {
+          return;
+        }
+        setToken(token);
+  
+        const response = await requestData<{
+            id: { teamName: string; } | undefined;
+            teamName: string;
+          }[]>(endpoint);
+        setTeams(response);
+      } catch (error) {
+        console.error('Erro ao buscar equipes:', error);
+      }
+    };
+  
+    if (teams.length === 0) {
+      fetchTeams();
     }
-    if (!teams.length) {
-      requestData(endpoint)
-        .then((response) => {
-          setTeams(response);
-        })
-        .catch((error) => console.log(error));
-    }
-  });
+  }, [teams]);
 
-  const getTeam = (team, homeOrAway) => {
-    const { id } = teams.find(({ teamName }) => teamName === team);
-    if (homeOrAway === 'homeTeam') { setHomeTeamId(id); } else { setAwayTeamId(id); }
+  const getTeam = (team: string, homeOrAway: string) => {
+    const teamObject = teams.find(({ teamName }) => teamName === team);
+  
+    if (teamObject && teamObject.id) {
+      const id = teamObject.id.teamName;
+  
+      if (homeOrAway === 'homeTeam') {
+        setHomeTeamId(Number(id));
+      } else {
+        setAwayTeamId(Number(id));
+      }
+    } else {
+        throw new Error('Time não encontrado');
+    }
   };
+  
 
   const createMatch = async () => {
     const body = {
