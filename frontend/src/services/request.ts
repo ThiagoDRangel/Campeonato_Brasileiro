@@ -4,9 +4,11 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+const apiBaseURL = 'http://localhost:3010';
 const api = axios.create({
-  baseURL: `http://localhost:${process.env.API_PORT || '3010'}`,
+  baseURL: apiBaseURL,
 });
+
 
 export const setToken = (token: string) => {
   api.defaults.headers.common.Authorization = `Bearer ${token}`;
