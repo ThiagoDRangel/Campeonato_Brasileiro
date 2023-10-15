@@ -4,12 +4,8 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-const apiBaseURL = process.env.API_PORT === 'production'
-  ? 'http://seu-servidor-em-producao.com'
-  : 'http://localhost:3010';
-
 const api = axios.create({
-  baseURL: apiBaseURL,
+  baseURL: `http://localhost:${process.env.API_PORT || '3010'}`,
 });
 
 export const setToken = (token: string) => {
